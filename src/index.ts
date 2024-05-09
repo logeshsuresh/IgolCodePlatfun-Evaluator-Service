@@ -1,3 +1,4 @@
+import bodyParser from "body-parser";
 import express, { Express } from "express";
 
 import bullBoardAdapter from "./config/bullBoardConfig";
@@ -8,8 +9,12 @@ import SampleWorker from "./workers/sampleWorker";
 
 const app: Express = express();
 
-app.use('/api', apiRouter);
-app.use('/ui', bullBoardAdapter.getRouter());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+app.use(bodyParser.text());
+
+app.use("/api", apiRouter);
+app.use("/ui", bullBoardAdapter.getRouter());
 
 app.listen(serverConfig.PORT, async () => {
   console.log(`Server started at PORT ${serverConfig.PORT}`);
